@@ -38,27 +38,21 @@ module.exports = {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
-        // Brand colors
-        mint: {
-          DEFAULT: "#a8e6cf",
-          light: "#c5f0e0",
-          dark: "#8bd4b3",
-        },
-        peach: {
-          DEFAULT: "#ffd3b6",
-          light: "#ffe4d1",
-          dark: "#ffc2a0",
-        },
-        lime: {
-          DEFAULT: "#dcedc1",
-          light: "#eaf5d8",
-          dark: "#c5e0a5",
-        },
-        darkblue: "#2c3e50",
+        // Brand MaIA — paleta oficial do brandbook
+        verde:    { DEFAULT: "#A8C5A0", light: "#C5DFC0", dark: "#8AAB82" },
+        azul:     { DEFAULT: "#A3BFD9", light: "#B8D5EE", dark: "#85A3BF" },
+        amarelo:  { DEFAULT: "#F0DFA0", light: "#F8EFCC", dark: "#D9C580" },
+        laranja:  { DEFAULT: "#F2C4A0", light: "#F9DCC4", dark: "#D9A580" },
+        dourado:  { DEFAULT: "#C9A84C", light: "#E8D090", dark: "#A88A2E" },
+        escuro:   "#1A1410",
+        escuro2:  "#2A2018",
+        offwhite: "#FAF8F5",
+        offwhite2:"#F2EDE6",
+        cinza:    "#8A8480",
       },
       fontFamily: {
-        script: ['"Dancing Script"', 'cursive'],
-        sans: ['"Nunito Sans"', 'sans-serif'],
+        serif: ['"Cormorant Garamond"', 'Georgia', 'serif'],
+        sans:  ['"Inter"', 'system-ui', 'sans-serif'],
       },
       borderRadius: {
         xl: "calc(var(--radius) + 4px)",
@@ -69,8 +63,8 @@ module.exports = {
       },
       boxShadow: {
         xs: "0 1px 2px 0 rgb(0 0 0 / 0.05)",
-        soft: "0 10px 40px -10px rgba(168, 230, 207, 0.3)",
-        glow: "0 0 40px rgba(168, 230, 207, 0.4)",
+        soft: "0 10px 40px -10px rgba(201, 168, 76, 0.25)",
+        glow: "0 0 40px rgba(201, 168, 76, 0.35)",
       },
       keyframes: {
         "accordion-down": {
@@ -91,7 +85,7 @@ module.exports = {
         },
         "pulse-soft": {
           "0%, 100%": { opacity: "1", transform: "scale(1)" },
-          "50%": { opacity: "0.8", transform: "scale(1.05)" },
+          "50%": { opacity: "0.85", transform: "scale(1.04)" },
         },
         "blob": {
           "0%": { transform: "translate(0px, 0px) scale(1)" },
