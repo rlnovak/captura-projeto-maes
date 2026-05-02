@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { supabase } from '@/lib/supabase';
 import {
   Sparkles,
   Heart,
@@ -24,6 +25,7 @@ export default function LandingPage({ onNavigateToSales }: LandingPageProps) {
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
   const [visibleSections, setVisibleSections] = useState<Set<string>>(new Set());
 
   const heroRef = useRef<HTMLDivElement>(null);
@@ -50,14 +52,33 @@ export default function LandingPage({ onNavigateToSales }: LandingPageProps) {
     return () => observer.disconnect();
   }, []);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (name && email && phone) {
-      setIsSubmitted(true);
-      setTimeout(() => {
-        onNavigateToSales();
-      }, 1800);
+    if (!name || !email || !phone) return;
+
+    setSubmitError(null);
+
+    const params = new URLSearchParams(window.location.search);
+
+    const { error } = await supabase.from('leads').insert({
+      nome: name,
+      email,
+      telefone: phone,
+      utm_source: params.get('utm_source'),
+      utm_medium: params.get('utm_medium'),
+      utm_campaign: params.get('utm_campaign'),
+      pagina_origem: 'landing',
+    });
+
+    if (error) {
+      setSubmitError('Algo deu errado. Tente novamente.');
+      return;
     }
+
+    setIsSubmitted(true);
+    setTimeout(() => {
+      onNavigateToSales();
+    }, 1800);
   };
 
   const scrollToSection = (ref: React.RefObject<HTMLDivElement | null>) => {
@@ -264,6 +285,10 @@ export default function LandingPage({ onNavigateToSales }: LandingPageProps) {
                       Quero meu Kit Mágico
                       <ArrowRight className="ml-2 w-5 h-5" />
                     </Button>
+
+                    {submitError && (
+                      <p className="text-sm text-red-500 text-center">{submitError}</p>
+                    )}
 
                     <p className="text-xs text-cinza text-center">
                       Sem spam. Você pode sair a qualquer momento.
