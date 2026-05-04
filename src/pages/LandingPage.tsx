@@ -300,9 +300,18 @@ export default function LandingPage({ onNavigateToSales }: LandingPageProps) {
                       <CheckCircle2 className="w-8 h-8 text-escuro" />
                     </div>
                     <h3 className="text-2xl font-serif italic text-escuro mb-2">Pronto!</h3>
-                    <p className="text-cinza">
-                      O Kit Mágico está chegando no seu e-mail. Te levamos pra próxima página em segundos…
+                    <p className="text-cinza mb-4">
+                      Seu Kit Mágico está pronto. Acesse agora ou aguarde — te levamos pra próxima página em segundos.
                     </p>
+                    <a
+                      href="https://www.notion.so/3561f89db8f38166ace8c6141ae5b85b"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-2 bg-dourado hover:bg-dourado-light text-escuro font-semibold px-6 py-3 rounded-full text-sm transition-all hover:scale-105"
+                    >
+                      Acessar o Kit Mágico agora
+                      <ArrowRight className="w-4 h-4" />
+                    </a>
                   </div>
                 )}
               </div>
