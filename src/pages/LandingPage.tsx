@@ -180,14 +180,13 @@ export default function LandingPage({ onNavigateToSales }: LandingPageProps) {
                   : 'opacity-0 -translate-x-10'
               }`}
             >
-              <div className="relative rounded-3xl overflow-hidden shadow-2xl border border-dourado/15">
-                {/* TODO: substituir por asset MaIA — mockup do Kit Mágico */}
+              <div className="relative rounded-3xl overflow-hidden bg-offwhite2">
                 <img
-                  src="/planner-mockup.jpg"
+                  src="/planner-mockup-2.png"
                   alt="Kit Mágico pra Mães com IA — 3 prompts prontos pro ChatGPT"
-                  className="w-full h-auto"
+                  className="w-full h-auto opacity-90 mix-blend-multiply"
+                  style={{ maskImage: 'linear-gradient(to bottom, black 60%, transparent 100%)', WebkitMaskImage: 'linear-gradient(to bottom, black 60%, transparent 100%)' }}
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-escuro/30 via-transparent to-transparent" />
               </div>
 
               {/* Floating Badge */}
@@ -354,19 +353,29 @@ export default function LandingPage({ onNavigateToSales }: LandingPageProps) {
                   : 'opacity-0 -translate-x-10'
               }`}
             >
-              <div className="relative rounded-3xl overflow-hidden shadow-2xl border border-dourado/15">
-                {/* TODO: substituir por asset MaIA — foto de mãe real, sem clichê */}
-                <img
-                  src="/story-mom.jpg"
-                  alt="Mãe brasileira em rotina real com seu filho pequeno"
-                  className="w-full h-auto"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-escuro/40 via-transparent to-transparent" />
+              {/* Grid de duas fotos lado a lado */}
+              <div className="grid grid-cols-2 gap-3">
+                <div className="relative rounded-2xl overflow-hidden">
+                  <img
+                    src="/story-mom-2_a.png"
+                    alt="Mãe brasileira em rotina real com seu filho pequeno"
+                    className="w-full h-auto opacity-85 mix-blend-multiply"
+                  />
+                  <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-offwhite to-transparent pointer-events-none" />
+                </div>
+                <div className="relative rounded-2xl overflow-hidden">
+                  <img
+                    src="/story-mom-2_b.png"
+                    alt="Mãe brasileira em rotina real com seu filho pequeno"
+                    className="w-full h-auto opacity-85 mix-blend-multiply"
+                  />
+                  <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-offwhite to-transparent pointer-events-none" />
+                </div>
               </div>
 
               {/* Quote Card — narradora coletiva agora, Eliza depois */}
               {/* EDITÁVEL: trocar pelo depoimento da Eliza quando a história dela estiver pronta. Manter card + posicionamento. */}
-              <div className="absolute -bottom-6 -right-6 bg-white rounded-2xl shadow-soft p-6 max-w-xs border border-dourado/20">
+              <div className="mt-4 bg-white rounded-2xl shadow-soft p-6 border border-dourado/20">
                 <p className="font-serif italic text-lg text-escuro leading-snug">
                   "Eu não tava sozinha por falta de gente. Tava sozinha por falta de alguém que entendesse."
                 </p>
@@ -491,11 +500,10 @@ export default function LandingPage({ onNavigateToSales }: LandingPageProps) {
               }`}
             >
               <div className="relative">
-                {/* TODO: substituir por asset MaIA — orb da identidade visual */}
                 <img
-                  src="/ai-orb.png"
+                  src="/ai-orb-2.png"
                   alt="MaIA — uma presença que entende você"
-                  className="w-80 h-80 object-contain animate-pulse-soft drop-shadow-2xl"
+                  className="w-80 h-80 object-contain animate-pulse-soft drop-shadow-2xl opacity-90 mix-blend-luminosity"
                 />
 
                 {/* Floating Feature Icons */}
