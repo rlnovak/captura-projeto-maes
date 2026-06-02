@@ -93,6 +93,19 @@ export default function LandingPage({ onNavigateToSales }: LandingPageProps) {
         ref={heroRef}
         className="relative min-h-screen flex items-center justify-center overflow-hidden"
       >
+        {/* Hero background image — blended */}
+        <div className="absolute inset-0 overflow-hidden">
+          <img
+            src="/sales-hero-2.png"
+            alt=""
+            aria-hidden="true"
+            className="absolute inset-0 w-full h-full object-cover opacity-30 mix-blend-multiply"
+          />
+          {/* Fade edges */}
+          <div className="absolute inset-0 bg-gradient-to-r from-offwhite via-transparent to-offwhite" />
+          <div className="absolute inset-0 bg-gradient-to-b from-offwhite via-transparent to-offwhite" />
+        </div>
+
         {/* Animated Background Blobs — paleta MaIA */}
         <div className="absolute inset-0 overflow-hidden">
           <div className="absolute top-0 left-0 w-[600px] h-[600px] bg-verde-light/40 rounded-full mix-blend-multiply filter blur-3xl opacity-70 animate-blob" />
@@ -353,24 +366,16 @@ export default function LandingPage({ onNavigateToSales }: LandingPageProps) {
                   : 'opacity-0 -translate-x-10'
               }`}
             >
-              {/* Grid de duas fotos lado a lado */}
-              <div className="grid grid-cols-2 gap-3">
-                <div className="relative rounded-2xl overflow-hidden">
-                  <img
-                    src="/story-mom-2_a.png"
-                    alt="Mãe brasileira em rotina real com seu filho pequeno"
-                    className="w-full h-auto opacity-85 mix-blend-multiply"
-                  />
-                  <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-offwhite to-transparent pointer-events-none" />
-                </div>
-                <div className="relative rounded-2xl overflow-hidden">
-                  <img
-                    src="/story-mom-2_b.png"
-                    alt="Mãe brasileira em rotina real com seu filho pequeno"
-                    className="w-full h-auto opacity-85 mix-blend-multiply"
-                  />
-                  <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-offwhite to-transparent pointer-events-none" />
-                </div>
+              {/* Foto única — mãe real */}
+              <div className="relative rounded-2xl overflow-hidden">
+                <img
+                  src="/story-mom-2_a.png"
+                  alt="Mãe brasileira em rotina real com seu filho pequeno"
+                  className="w-full h-auto opacity-85 mix-blend-multiply"
+                />
+                <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-offwhite to-transparent pointer-events-none" />
+                <div className="absolute inset-y-0 left-0 w-16 bg-gradient-to-r from-offwhite to-transparent pointer-events-none" />
+                <div className="absolute inset-y-0 right-0 w-16 bg-gradient-to-l from-offwhite to-transparent pointer-events-none" />
               </div>
 
               {/* Quote Card — narradora coletiva agora, Eliza depois */}
