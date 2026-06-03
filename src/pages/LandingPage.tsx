@@ -623,9 +623,15 @@ export default function LandingPage({ onNavigateToSales }: LandingPageProps) {
             <p className="text-offwhite/45 text-xs">
               © 2026 MaIA · Todos os direitos reservados.
             </p>
-            <p className="text-offwhite/30 text-[10px] mt-2 tracking-wide">
-              Contato: [A PREENCHER — email oficial MaIA]
-            </p>
+            <div className="flex items-center justify-center gap-4 mt-3">
+              <a href="/politica-de-privacidade.html" className="text-offwhite/35 text-[10px] tracking-wide hover:text-dourado transition-colors">
+                Política de Privacidade
+              </a>
+              <span className="text-offwhite/20 text-[10px]">·</span>
+              <a href="/termos-de-uso.html" className="text-offwhite/35 text-[10px] tracking-wide hover:text-dourado transition-colors">
+                Termos de Uso
+              </a>
+            </div>
           </div>
         </div>
       </footer>
