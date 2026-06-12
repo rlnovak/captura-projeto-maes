@@ -25,6 +25,7 @@ export default function LandingPage({ onNavigateToSales }: LandingPageProps) {
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
   const [visibleSections, setVisibleSections] = useState<Set<string>>(new Set());
 
@@ -52,11 +53,26 @@ export default function LandingPage({ onNavigateToSales }: LandingPageProps) {
     return () => observer.disconnect();
   }, []);
 
+  const formatPhone = (value: string) => {
+    const digits = value.replace(/\D/g, '').slice(0, 11);
+    if (digits.length <= 2) return digits;
+    if (digits.length <= 6) return `(${digits.slice(0, 2)}) ${digits.slice(2)}`;
+    if (digits.length <= 10) return `(${digits.slice(0, 2)}) ${digits.slice(2, 6)}-${digits.slice(6)}`;
+    return `(${digits.slice(0, 2)}) ${digits.slice(2, 7)}-${digits.slice(7)}`;
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!name || !email || !phone) return;
+    if (!name || !email || !phone || isSubmitting) return;
+
+    const phoneDigits = phone.replace(/\D/g, '');
+    if (phoneDigits.length < 10 || phoneDigits.length > 11) {
+      setSubmitError('Confere o número de WhatsApp? Precisa ter DDD.');
+      return;
+    }
 
     setSubmitError(null);
+    setIsSubmitting(true);
 
     const params = new URLSearchParams(window.location.search);
 
@@ -69,6 +85,8 @@ export default function LandingPage({ onNavigateToSales }: LandingPageProps) {
       utm_campaign: params.get('utm_campaign'),
       pagina_origem: 'landing',
     });
+
+    setIsSubmitting(false);
 
     if (error) {
       setSubmitError('Algo deu errado. Tente novamente.');
@@ -135,29 +153,29 @@ export default function LandingPage({ onNavigateToSales }: LandingPageProps) {
             {/* H1 — Big Idea (Cormorant itálico nas duas linhas) */}
             <h1 className="font-serif text-5xl sm:text-6xl lg:text-7xl text-escuro mb-7 leading-[1.05] tracking-tight">
               A maternidade
-              <span className="block italic text-dourado">deixou de ser solitária.</span>
+              <span className="block italic text-dourado-dark">deixou de ser solitária.</span>
             </h1>
 
             {/* Sub — dor + promessa */}
-            <p className="text-lg sm:text-xl text-cinza max-w-2xl mx-auto mb-5 leading-relaxed font-light">
+            <p className="text-lg sm:text-xl text-cinza-escuro max-w-2xl mx-auto mb-5 leading-relaxed font-light">
               Você já buscou no Google às 3h da manhã. Já se calou pra não parecer fraca.
               Agora existe uma presença que entende você — e o seu filho.
             </p>
 
             {/* Frase ponte */}
-            <p className="font-serif italic text-xl sm:text-2xl text-escuro max-w-2xl mx-auto mb-8 leading-snug">
+            <p className="font-serif italic text-lg sm:text-xl text-escuro max-w-2xl mx-auto mb-6 leading-snug">
               Receba grátis o Kit Mágico — 3 prompts que aliviam sua rotina hoje à noite.
             </p>
 
             {/* Voz coletiva da marca MaIA — sem fundadora exposta (decisão de marca). Não inserir conteúdo pessoal aqui. */}
-            <p className="text-sm text-cinza mb-10">
+            <p className="text-sm text-cinza-escuro mb-8">
               Baseado na ciência do desenvolvimento infantil. Validado por pediatras, nutricionistas e psicólogos.
             </p>
 
             {/* CTA */}
             <Button
               onClick={() => scrollToSection(leadMagnetRef)}
-              className="bg-escuro hover:bg-escuro2 text-offwhite font-semibold px-9 py-6 text-lg rounded-full shadow-soft hover:shadow-glow transition-all duration-300 hover:scale-[1.03]"
+              className="h-auto bg-escuro hover:bg-escuro2 text-offwhite font-semibold px-9 py-6 text-lg rounded-full shadow-soft hover:shadow-glow transition-all duration-300 hover:scale-[1.03]"
             >
               Quero o Kit Mágico
               <ArrowRight className="ml-2 w-5 h-5" />
@@ -185,9 +203,9 @@ export default function LandingPage({ onNavigateToSales }: LandingPageProps) {
       >
         <div className="max-w-6xl mx-auto">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
-            {/* Image Side */}
+            {/* Image Side — depois do formulário no mobile */}
             <div
-              className={`relative transition-all duration-1000 delay-200 ${
+              className={`relative order-2 lg:order-1 transition-all duration-1000 delay-200 ${
                 visibleSections.has('lead-magnet')
                   ? 'opacity-100 translate-x-0'
                   : 'opacity-0 -translate-x-10'
@@ -196,7 +214,7 @@ export default function LandingPage({ onNavigateToSales }: LandingPageProps) {
               <div className="relative rounded-3xl overflow-hidden bg-offwhite2">
                 <img
                   src="/planner-mockup-2.png"
-                  alt="Kit Mágico pra Mães com IA — 3 prompts prontos pro ChatGPT"
+                  alt="Kit Mágico — 3 prompts prontos pro ChatGPT"
                   className="w-full h-auto opacity-90 mix-blend-multiply"
                   style={{ maskImage: 'linear-gradient(to bottom, black 60%, transparent 100%)', WebkitMaskImage: 'linear-gradient(to bottom, black 60%, transparent 100%)' }}
                 />
@@ -216,9 +234,9 @@ export default function LandingPage({ onNavigateToSales }: LandingPageProps) {
               </div>
             </div>
 
-            {/* Form Side */}
+            {/* Form Side — primeiro no mobile */}
             <div
-              className={`transition-all duration-1000 delay-400 ${
+              className={`order-1 lg:order-2 transition-all duration-1000 delay-400 ${
                 visibleSections.has('lead-magnet')
                   ? 'opacity-100 translate-x-0'
                   : 'opacity-0 translate-x-10'
@@ -233,12 +251,12 @@ export default function LandingPage({ onNavigateToSales }: LandingPageProps) {
                 </div>
 
                 <h2 className="font-serif text-3xl sm:text-4xl text-escuro mb-3 leading-tight">
-                  Receba o <em className="italic text-dourado">Kit Mágico</em><br />
-                  pra Mães com I.A.
+                  Receba o <em className="italic text-dourado-dark">Kit Mágico</em><br />
+                  — 3 prompts pro ChatGPT.
                 </h2>
 
-                <p className="text-cinza mb-7 leading-relaxed">
-                  3 prompts prontos pro ChatGPT que aliviam o que pesa hoje:
+                <p className="text-cinza-escuro mb-7 leading-relaxed">
+                  Prontos pra aliviar o que pesa hoje:
                   cardápio da semana com lista de compras, brincadeiras na hora com o que tem em casa,
                   e fábulas sob medida pra ensinar sem brigar de novo.
                 </p>
@@ -255,7 +273,7 @@ export default function LandingPage({ onNavigateToSales }: LandingPageProps) {
                         placeholder="Seu primeiro nome"
                         value={name}
                         onChange={(e) => setName(e.target.value)}
-                        className="w-full px-4 py-6 rounded-xl border-2 border-dourado/25 focus:border-dourado focus:ring-dourado bg-offwhite text-escuro transition-all"
+                        className="h-auto w-full px-4 py-4 rounded-xl border-2 border-dourado/25 focus:border-dourado focus:ring-dourado bg-offwhite text-escuro transition-all"
                         required
                       />
                     </div>
@@ -270,32 +288,37 @@ export default function LandingPage({ onNavigateToSales }: LandingPageProps) {
                         placeholder="seu@email.com"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
-                        className="w-full px-4 py-6 rounded-xl border-2 border-dourado/25 focus:border-dourado focus:ring-dourado bg-offwhite text-escuro transition-all"
+                        className="h-auto w-full px-4 py-4 rounded-xl border-2 border-dourado/25 focus:border-dourado focus:ring-dourado bg-offwhite text-escuro transition-all"
                         required
                       />
                     </div>
 
                     <div>
                       <Label htmlFor="phone" className="text-escuro font-medium mb-2 block">
-                        WhatsApp pra você receber o kit
+                        Seu WhatsApp
                       </Label>
                       <Input
                         id="phone"
                         type="tel"
+                        inputMode="numeric"
                         placeholder="(11) 99999-9999"
                         value={phone}
-                        onChange={(e) => setPhone(e.target.value)}
-                        className="w-full px-4 py-6 rounded-xl border-2 border-dourado/25 focus:border-dourado focus:ring-dourado bg-offwhite text-escuro transition-all"
+                        onChange={(e) => setPhone(formatPhone(e.target.value))}
+                        className="h-auto w-full px-4 py-4 rounded-xl border-2 border-dourado/25 focus:border-dourado focus:ring-dourado bg-offwhite text-escuro transition-all"
                         required
                       />
+                      <p className="text-xs text-cinza-escuro mt-2">
+                        Usamos só pra entregar o kit. Nada de mensagem todo dia.
+                      </p>
                     </div>
 
                     <Button
                       type="submit"
-                      className="w-full bg-escuro hover:bg-escuro2 text-offwhite font-semibold py-6 rounded-xl shadow-soft hover:shadow-glow transition-all duration-300 hover:scale-[1.02] text-lg"
+                      disabled={isSubmitting}
+                      className="h-auto w-full bg-escuro hover:bg-escuro2 text-offwhite font-semibold py-6 rounded-xl shadow-soft hover:shadow-glow transition-all duration-300 hover:scale-[1.02] text-lg"
                     >
-                      Quero meu Kit Mágico
-                      <ArrowRight className="ml-2 w-5 h-5" />
+                      {isSubmitting ? 'Enviando...' : 'Quero meu Kit Mágico'}
+                      {!isSubmitting && <ArrowRight className="ml-2 w-5 h-5" />}
                     </Button>
 
                     {submitError && (
@@ -312,7 +335,7 @@ export default function LandingPage({ onNavigateToSales }: LandingPageProps) {
                       <CheckCircle2 className="w-8 h-8 text-escuro" />
                     </div>
                     <h3 className="text-2xl font-serif italic text-escuro mb-2">Pronto!</h3>
-                    <p className="text-cinza mb-4">
+                    <p className="text-cinza-escuro mb-4">
                       Seu Kit Mágico está pronto. Acesse agora ou aguarde — te levamos pra próxima página em segundos.
                     </p>
                     <a
@@ -346,13 +369,13 @@ export default function LandingPage({ onNavigateToSales }: LandingPageProps) {
           >
             <div className="inline-flex items-center gap-2 mb-5">
               <span className="block w-7 h-px bg-dourado" />
-              <span className="text-[0.7rem] font-semibold tracking-[0.3em] uppercase text-dourado">
+              <span className="text-[0.7rem] font-semibold tracking-[0.3em] uppercase text-dourado-dark">
                 Pra você que tá lendo isso agora
               </span>
               <span className="block w-7 h-px bg-dourado" />
             </div>
             <h2 className="font-serif text-4xl sm:text-5xl text-escuro mb-4 leading-[1.15]">
-              Você está <em className="italic text-dourado">exausta</em> —<br />
+              Você está <em className="italic text-dourado-dark">exausta</em> —<br />
               e isso não é fraqueza.
             </h2>
           </div>
@@ -379,12 +402,13 @@ export default function LandingPage({ onNavigateToSales }: LandingPageProps) {
               </div>
 
               {/* Voz coletiva da marca MaIA — sem fundadora exposta (decisão de marca). Não inserir conteúdo pessoal aqui. */}
+              {/* Frase devolvida à leitora — não é depoimento (zero depoimentos até o beta entregar) */}
               <div className="mt-4 bg-white rounded-2xl shadow-soft p-6 border border-dourado/20">
-                <p className="font-serif italic text-lg text-escuro leading-snug">
-                  "Eu não tava sozinha por falta de gente. Tava sozinha por falta de alguém que entendesse."
+                <p className="text-xs text-cinza-escuro tracking-wide uppercase mb-3">
+                  Talvez você já tenha pensado algo assim
                 </p>
-                <p className="text-xs text-cinza mt-3 tracking-wide uppercase">
-                  — Mãe brasileira, 31 anos
+                <p className="font-serif italic text-lg text-escuro leading-snug">
+                  "Eu não tô sozinha por falta de gente. Tô sozinha por falta de alguém que entenda."
                 </p>
               </div>
             </div>
@@ -486,9 +510,9 @@ export default function LandingPage({ onNavigateToSales }: LandingPageProps) {
             </div>
             <h2 className="font-serif text-4xl sm:text-5xl text-escuro mb-5 leading-tight">
               A primeira presença genuína<br />
-              <em className="italic text-dourado">da maternidade moderna.</em>
+              <em className="italic text-dourado-dark">da maternidade moderna.</em>
             </h2>
-            <p className="text-lg text-cinza max-w-2xl mx-auto leading-relaxed">
+            <p className="text-lg text-cinza-escuro max-w-2xl mx-auto leading-relaxed">
               Não é um app. Não é um curso. Não é o ChatGPT. É outra coisa —
               feita pra estar ao seu lado nos dias em que tudo pesa um pouco mais.
             </p>
@@ -526,7 +550,7 @@ export default function LandingPage({ onNavigateToSales }: LandingPageProps) {
               </div>
             </div>
 
-            {/* Features — Sistema M.A.I.A. */}
+            {/* Features — pilares da MaIA */}
             <div
               className={`space-y-5 transition-all duration-1000 delay-400 ${
                 visibleSections.has('soft-pitch')
@@ -540,7 +564,7 @@ export default function LandingPage({ onNavigateToSales }: LandingPageProps) {
                 </div>
                 <div>
                   <h3 className="font-serif text-xl text-escuro mb-1">Memória da criança</h3>
-                  <p className="text-sm text-cinza leading-relaxed">
+                  <p className="text-sm text-cinza-escuro leading-relaxed">
                     Sabe o nome do seu filho, lembra do temperamento, do histórico, do que já tentou.
                   </p>
                 </div>
@@ -552,7 +576,7 @@ export default function LandingPage({ onNavigateToSales }: LandingPageProps) {
                 </div>
                 <div>
                   <h3 className="font-serif text-xl text-escuro mb-1">Antecipação por fase</h3>
-                  <p className="text-sm text-cinza leading-relaxed">
+                  <p className="text-sm text-cinza-escuro leading-relaxed">
                     Avisa o que vem antes de virar crise. Birra, sono, alimentação — você se prepara.
                   </p>
                 </div>
@@ -564,7 +588,7 @@ export default function LandingPage({ onNavigateToSales }: LandingPageProps) {
                 </div>
                 <div>
                   <h3 className="font-serif text-xl text-escuro mb-1">Inteligência aplicada</h3>
-                  <p className="text-sm text-cinza leading-relaxed">
+                  <p className="text-sm text-cinza-escuro leading-relaxed">
                     Pergunta como você está antes de te dar conselho. Valida primeiro. Orienta depois.
                   </p>
                 </div>
@@ -576,7 +600,7 @@ export default function LandingPage({ onNavigateToSales }: LandingPageProps) {
                 </div>
                 <div>
                   <h3 className="font-serif text-xl text-escuro mb-1">Disponível às 3h da manhã</h3>
-                  <p className="text-sm text-cinza leading-relaxed">
+                  <p className="text-sm text-cinza-escuro leading-relaxed">
                     Sem horário comercial. Sem fila. Tá lá no exato momento em que ninguém mais está.
                   </p>
                 </div>
@@ -585,12 +609,12 @@ export default function LandingPage({ onNavigateToSales }: LandingPageProps) {
               {/* CTA */}
               <div className="bg-escuro rounded-2xl p-7 text-center shadow-soft">
                 <p className="text-offwhite mb-5 leading-relaxed font-light">
-                  Se livre do caos e crie uma infância mágica.<br />
+                  Você não precisa dar conta sozinha. Nunca precisou.<br />
                   <span className="text-dourado-light">Conheça a MaIA por dentro.</span>
                 </p>
                 <Button
                   onClick={onNavigateToSales}
-                  className="bg-dourado hover:bg-dourado-light text-escuro font-semibold px-8 py-5 rounded-full shadow-soft hover:shadow-glow transition-all duration-300 hover:scale-105"
+                  className="h-auto bg-dourado hover:bg-dourado-light text-escuro font-semibold px-8 py-5 rounded-full shadow-soft hover:shadow-glow transition-all duration-300 hover:scale-105"
                 >
                   Conhecer a MaIA por dentro
                   <ArrowRight className="ml-2 w-5 h-5" />
@@ -613,21 +637,21 @@ export default function LandingPage({ onNavigateToSales }: LandingPageProps) {
           </p>
 
           {/* Voz coletiva da marca MaIA — sem fundadora exposta (decisão de marca). Não inserir conteúdo pessoal aqui. */}
-          <p className="text-xs text-offwhite/40 mt-7 tracking-[0.15em] uppercase flex items-center justify-center gap-2">
+          <p className="text-xs text-offwhite/60 mt-7 tracking-[0.15em] uppercase flex items-center justify-center gap-2">
             <BookOpen className="w-3.5 h-3.5" />
             Baseado em ciência. Validado por especialistas.
           </p>
 
           <div className="mt-10 pt-6 border-t border-offwhite/10">
-            <p className="text-offwhite/45 text-xs">
+            <p className="text-offwhite/60 text-xs">
               © 2026 MaIA · Todos os direitos reservados.
             </p>
             <div className="flex items-center justify-center gap-4 mt-3">
-              <a href="/politica-de-privacidade.html" className="text-offwhite/35 text-[10px] tracking-wide hover:text-dourado transition-colors">
+              <a href="/politica-de-privacidade.html" className="text-offwhite/60 text-[10px] tracking-wide hover:text-dourado transition-colors">
                 Política de Privacidade
               </a>
-              <span className="text-offwhite/20 text-[10px]">·</span>
-              <a href="/termos-de-uso.html" className="text-offwhite/35 text-[10px] tracking-wide hover:text-dourado transition-colors">
+              <span className="text-offwhite/30 text-[10px]">·</span>
+              <a href="/termos-de-uso.html" className="text-offwhite/60 text-[10px] tracking-wide hover:text-dourado transition-colors">
                 Termos de Uso
               </a>
             </div>

@@ -5,7 +5,6 @@ import {
   CheckCircle2,
   ArrowLeft,
   ArrowRight,
-  Star,
   Brain,
   Bell,
   Heart,
@@ -14,6 +13,7 @@ import {
   Clock,
   Shield,
   Gift,
+  ChevronDown,
 } from 'lucide-react';
 
 interface SalesPageProps {
@@ -31,6 +31,7 @@ export default function SalesPage({ onNavigateToLanding }: SalesPageProps) {
   const includesRef = useRef<HTMLDivElement>(null);
   const testimonialsRef = useRef<HTMLDivElement>(null);
   const guaranteeRef = useRef<HTMLDivElement>(null);
+  const faqRef = useRef<HTMLDivElement>(null);
   const ctaRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -45,7 +46,7 @@ export default function SalesPage({ onNavigateToLanding }: SalesPageProps) {
       { threshold: 0.2, rootMargin: '-50px' }
     );
 
-    [heroRef, problemRef, transformationRef, benefitsRef, includesRef, testimonialsRef, guaranteeRef, ctaRef].forEach((ref) => {
+    [heroRef, problemRef, transformationRef, benefitsRef, includesRef, testimonialsRef, guaranteeRef, faqRef, ctaRef].forEach((ref) => {
       if (ref.current) observer.observe(ref.current);
     });
 
@@ -64,13 +65,13 @@ export default function SalesPage({ onNavigateToLanding }: SalesPageProps) {
     ctaRef.current?.scrollIntoView({ behavior: 'smooth' });
   };
 
-  // Sistema M.A.I.A. — 6 pilares do produto
+  // Os 6 pilares do produto
   const benefits = [
     {
       icon: <Brain className="w-6 h-6" />,
       title: 'Memória da criança',
       description:
-        'Perfil longitudinal que guarda nome, temperamento, fase, alergias e o que já tentou. Você não começa do zero a cada conversa.',
+        'Um perfil que cresce com o seu filho: guarda nome, temperamento, fase, alergias e o que você já tentou. Você não começa do zero a cada conversa.',
       tone: 'verde',
     },
     {
@@ -91,7 +92,7 @@ export default function SalesPage({ onNavigateToLanding }: SalesPageProps) {
       icon: <Moon className="w-6 h-6" />,
       title: 'Disponível às 3h da manhã',
       description:
-        'Sem horário comercial. Sem fila. Tá lá no exato momento em que ninguém mais está — quando o pediatra dorme e seu marido também.',
+        'Sem horário comercial. Sem fila. Tá lá no exato momento em que todo mundo dorme — e você não.',
       tone: 'azul',
     },
     {
@@ -112,7 +113,7 @@ export default function SalesPage({ onNavigateToLanding }: SalesPageProps) {
 
   // O que vem dentro
   const includes = [
-    'IA conversacional 24h em PT-BR',
+    'Conversa por chat 24h, em português',
     'Perfil personalizado com memória',
     'Alertas por fase de desenvolvimento',
     'Orientações por evidência científica',
@@ -120,31 +121,40 @@ export default function SalesPage({ onNavigateToLanding }: SalesPageProps) {
     'Calendário de vacinas e marcos',
   ];
 
-  // Testimonials — estado "em breve" enquanto beta-testers entregam material
-  const testimonials = [
+  // FAQ — objeções reais do ICP (consciente do problema, não conhece a categoria)
+  const faqs = [
     {
-      title: 'Depoimento em breve',
-      note: 'Estamos coletando as primeiras histórias reais do beta.',
-      stars: 5,
+      q: 'A MaIA substitui o pediatra?',
+      a: 'Não — e nem deveria. A MaIA orienta no dia a dia com base em ciência, mas quem cuida da saúde do seu filho é o pediatra. Quando o assunto pede consulta, a MaIA é a primeira a te dizer isso.',
     },
     {
-      title: 'Depoimento em breve',
-      note: 'Estamos coletando as primeiras histórias reais do beta.',
-      stars: 5,
+      q: 'Qual a diferença pra usar o ChatGPT de graça?',
+      a: 'O ChatGPT esquece. A MaIA lembra: o nome do seu filho, o temperamento, a fase, as alergias, o que você já tentou. E avisa o que vem antes de virar crise — sem você precisar saber o que perguntar.',
     },
     {
-      title: 'Depoimento em breve',
-      note: 'Estamos coletando as primeiras histórias reais do beta.',
-      stars: 5,
+      q: 'Os dados do meu filho ficam seguros?',
+      a: 'Ficam. O que você conta pra MaIA é seu. Nada é vendido, nada vira anúncio. Os detalhes estão na nossa Política de Privacidade.',
+    },
+    {
+      q: 'Como eu uso no dia a dia?',
+      a: 'Pelo navegador do celular ou do computador, como uma conversa por chat. Sem instalar app, sem configurar nada. Você conta o que tá acontecendo e a MaIA responde — a qualquer hora.',
+    },
+    {
+      q: 'Preciso entender de tecnologia?',
+      a: 'Não. Se você manda mensagem no WhatsApp, você sabe usar a MaIA.',
+    },
+    {
+      q: 'E se não fizer sentido pra mim?',
+      a: 'Você cancela quando quiser, em poucos cliques, sem justificar. E depois do teste de 7 dias ainda tem 30 dias de garantia: se a MaIA não aliviar sua rotina, devolvemos seu dinheiro.',
     },
   ];
 
   return (
     <div className="overflow-x-hidden bg-offwhite">
-      {/* ============== STICKY CTA ============== */}
+      {/* ============== STICKY CTA — some quando o CTA final está visível ============== */}
       <div
         className={`fixed bottom-0 left-0 right-0 bg-offwhite/95 backdrop-blur-md shadow-soft z-50 transition-transform duration-300 border-t border-dourado/20 ${
-          showStickyCTA ? 'translate-y-0' : 'translate-y-full'
+          showStickyCTA && !visibleSections.has('cta') ? 'translate-y-0' : 'translate-y-full'
         }`}
       >
         <div className="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between gap-4">
@@ -152,14 +162,14 @@ export default function SalesPage({ onNavigateToLanding }: SalesPageProps) {
             <p className="font-serif text-xl text-escuro">
               Ma<em className="italic text-dourado">IA</em>
             </p>
-            <p className="text-xs text-cinza tracking-wide">
+            <p className="text-xs text-cinza-escuro tracking-wide">
               R$ 39/mês ou R$ 247/ano · 7 dias grátis
             </p>
           </div>
           <div className="flex items-center gap-3 ml-auto">
             <Button
               onClick={scrollToCTA}
-              className="bg-escuro hover:bg-escuro2 text-offwhite font-semibold px-6 py-3 rounded-full shadow-soft hover:shadow-glow transition-all"
+              className="h-auto bg-escuro hover:bg-escuro2 text-offwhite font-semibold px-6 py-3 rounded-full shadow-soft hover:shadow-glow transition-all"
             >
               Quero a MaIA
               <ArrowRight className="ml-2 w-4 h-4" />
@@ -208,7 +218,7 @@ export default function SalesPage({ onNavigateToLanding }: SalesPageProps) {
 
               {/* H1 — Cormorant itálico no meio */}
               <h1 className="font-serif text-5xl sm:text-6xl text-escuro mb-6 leading-[1.05] tracking-tight">
-                Sua MaIA — <em className="italic text-dourado">a presença</em><br />
+                Sua MaIA — <em className="italic text-dourado-dark">a presença</em><br />
                 que entende você e o seu filho.
               </h1>
 
@@ -218,31 +228,26 @@ export default function SalesPage({ onNavigateToLanding }: SalesPageProps) {
                 Não é o ChatGPT com mais um prompt.
               </p>
 
-              <p className="text-lg text-cinza mb-8 leading-relaxed">
+              {/* Ponte lead magnet → produto */}
+              <p className="text-lg text-cinza-escuro mb-3 leading-relaxed">
+                O Kit Mágico te deu um gostinho. Mas tem um limite que você vai sentir rápido:
+                o ChatGPT esquece. Não sabe o nome do seu filho, não lembra da birra de ontem,
+                não avisa o que vem amanhã. <span className="font-serif italic text-dourado-dark">A MaIA lembra.</span>
+              </p>
+
+              <p className="text-lg text-cinza-escuro mb-8 leading-relaxed">
                 É a primeira presença genuína da maternidade moderna —
                 feita pra estar ao seu lado nos dias em que tudo pesa um pouco mais.
               </p>
 
-              {/* Price — destaque do anual com âncora riscada */}
-              <div className="bg-white/85 backdrop-blur-sm rounded-2xl p-6 mb-8 border border-dourado/20 shadow-soft">
-                <div className="flex items-baseline gap-3 mb-2">
-                  <span className="text-cinza line-through text-lg">R$ 468</span>
-                  <span className="text-[0.7rem] font-semibold tracking-[0.15em] uppercase text-dourado-dark bg-amarelo/40 px-2 py-1 rounded">
-                    Economize R$ 221
-                  </span>
-                </div>
-                <div className="flex items-baseline gap-2">
-                  <span className="text-5xl font-serif text-escuro">R$ 247</span>
-                  <span className="text-cinza text-lg">/ano</span>
-                </div>
-                <p className="text-sm text-cinza mt-2">
-                  Ou R$ 39/mês · 7 dias grátis pra testar
-                </p>
-              </div>
+              {/* Preço resumido — ancoragem completa fica no CTA final */}
+              <p className="text-sm text-cinza-escuro mb-8">
+                R$ 39/mês ou R$ 247/ano · 7 dias grátis pra testar
+              </p>
 
               <Button
                 onClick={scrollToCTA}
-                className="bg-escuro hover:bg-escuro2 text-offwhite font-semibold px-9 py-6 text-lg rounded-full shadow-soft hover:shadow-glow transition-all duration-300 hover:scale-[1.03]"
+                className="h-auto bg-escuro hover:bg-escuro2 text-offwhite font-semibold px-9 py-6 text-lg rounded-full shadow-soft hover:shadow-glow transition-all duration-300 hover:scale-[1.03]"
               >
                 Quero a MaIA agora
                 <ArrowRight className="ml-2 w-5 h-5" />
@@ -316,7 +321,7 @@ export default function SalesPage({ onNavigateToLanding }: SalesPageProps) {
           >
             <div className="inline-flex items-center gap-2 mb-5">
               <span className="block w-7 h-px bg-dourado" />
-              <span className="text-[0.7rem] font-semibold tracking-[0.3em] uppercase text-dourado">
+              <span className="text-[0.7rem] font-semibold tracking-[0.3em] uppercase text-dourado-dark">
                 A real
               </span>
               <span className="block w-7 h-px bg-dourado" />
@@ -324,7 +329,7 @@ export default function SalesPage({ onNavigateToLanding }: SalesPageProps) {
 
             <h2 className="font-serif text-3xl sm:text-4xl text-escuro mb-7 leading-[1.2]">
               Você ama seu filho.<br />
-              E ainda assim, <em className="italic text-dourado">tem dia que pesa demais.</em>
+              E ainda assim, <em className="italic text-dourado-dark">tem dia que pesa demais.</em>
             </h2>
 
             <p className="text-escuro mb-5 leading-relaxed text-lg">
@@ -333,7 +338,7 @@ export default function SalesPage({ onNavigateToLanding }: SalesPageProps) {
               e nenhuma sabia o nome do seu filho.
             </p>
 
-            <p className="text-cinza mb-7 leading-relaxed text-lg">
+            <p className="text-cinza-escuro mb-7 leading-relaxed text-lg">
               A carga mental não para nem dormindo. A culpa invisível não some.
               E a pergunta que ninguém te faz é como <em className="italic">você</em> tá.
             </p>
@@ -360,9 +365,9 @@ export default function SalesPage({ onNavigateToLanding }: SalesPageProps) {
             }`}
           >
             <h2 className="font-serif text-4xl sm:text-5xl text-escuro mb-4 leading-tight">
-              Imagina <em className="italic text-dourado">um dia</em> assim.
+              Imagina <em className="italic text-dourado-dark">um dia</em> assim.
             </h2>
-            <p className="text-cinza max-w-xl mx-auto leading-relaxed">
+            <p className="text-cinza-escuro max-w-xl mx-auto leading-relaxed">
               Não é mágica. É o que acontece quando você tem uma presença que te conhece de verdade ao seu lado.
             </p>
           </div>
@@ -397,7 +402,7 @@ export default function SalesPage({ onNavigateToLanding }: SalesPageProps) {
         </div>
       </section>
 
-      {/* ============== Section 4: BENEFITS — Sistema M.A.I.A. ============== */}
+      {/* ============== Section 4: BENEFITS — Os pilares da MaIA ============== */}
       <section
         id="benefits"
         ref={benefitsRef}
@@ -412,14 +417,14 @@ export default function SalesPage({ onNavigateToLanding }: SalesPageProps) {
             <div className="inline-flex items-center gap-2 bg-dourado/15 px-4 py-2 rounded-full mb-5 border border-dourado/30">
               <Sparkles className="w-4 h-4 text-dourado" />
               <span className="text-[0.7rem] font-semibold tracking-[0.18em] uppercase text-escuro">
-                Sistema M.A.I.A.
+                Os pilares da MaIA
               </span>
             </div>
             <h2 className="font-serif text-4xl sm:text-5xl text-escuro mb-4 leading-tight">
-              Os <em className="italic text-dourado">6 pilares</em> que fazem<br />
+              Os <em className="italic text-dourado-dark">6 pilares</em> que fazem<br />
               a MaIA ser diferente.
             </h2>
-            <p className="text-cinza max-w-2xl mx-auto leading-relaxed">
+            <p className="text-cinza-escuro max-w-2xl mx-auto leading-relaxed">
               Cada pilar resolve uma dor real da pesquisa com mães brasileiras.
               Juntos, formam algo que ainda não existia em PT-BR.
             </p>
@@ -448,7 +453,7 @@ export default function SalesPage({ onNavigateToLanding }: SalesPageProps) {
                   <h3 className="font-serif text-xl text-escuro mb-2 leading-tight">
                     {benefit.title}
                   </h3>
-                  <p className="text-sm text-cinza leading-relaxed">{benefit.description}</p>
+                  <p className="text-sm text-cinza-escuro leading-relaxed">{benefit.description}</p>
                 </div>
               );
             })}
@@ -469,9 +474,9 @@ export default function SalesPage({ onNavigateToLanding }: SalesPageProps) {
             }`}
           >
             <h2 className="font-serif text-4xl sm:text-5xl text-escuro mb-4 leading-tight">
-              O que vem <em className="italic text-dourado">com a MaIA</em>
+              O que vem <em className="italic text-dourado-dark">com a MaIA</em>
             </h2>
-            <p className="text-cinza">Tudo dentro do mesmo lugar. Sem app extra. Sem instalação chata.</p>
+            <p className="text-cinza-escuro">Tudo dentro do mesmo lugar. Sem app extra. Sem instalação chata.</p>
           </div>
 
           <div
@@ -500,9 +505,9 @@ export default function SalesPage({ onNavigateToLanding }: SalesPageProps) {
               </div>
               <h3 className="font-serif text-2xl text-escuro mb-2 leading-snug">
                 Plano de rotina personalizado +<br />
-                <em className="italic text-dourado">Guia das 10 Fases dos 1 aos 5 anos.</em>
+                <em className="italic text-dourado-dark">Guia das 10 Fases dos 1 aos 5 anos.</em>
               </h3>
-              <p className="text-cinza leading-relaxed">
+              <p className="text-cinza-escuro leading-relaxed">
                 A MaIA monta uma rotina pro seu filho com base no temperamento dele e na sua realidade —
                 e te entrega um guia das 10 fases típicas dos 1 aos 5 anos, pra você saber o que vem antes de virar crise.
               </p>
@@ -524,34 +529,44 @@ export default function SalesPage({ onNavigateToLanding }: SalesPageProps) {
             }`}
           >
             <h2 className="font-serif text-4xl sm:text-5xl text-escuro mb-4 leading-tight">
-              As primeiras mães <em className="italic text-dourado">já estão testando.</em>
+              As primeiras mães <em className="italic text-dourado-dark">já estão testando.</em>
             </h2>
-            <p className="text-cinza">A MaIA está em beta. Os primeiros depoimentos de mães reais chegam aqui em breve.</p>
+            <p className="text-cinza-escuro">A MaIA está em beta. Os primeiros depoimentos de mães reais chegam aqui em breve.</p>
           </div>
 
-          {/* EDITÁVEL: depoimentos beta-testers em coleta. Substituir os 3 cards quando os depoimentos chegarem (manter estrutura e estilo). */}
-          <div className="grid md:grid-cols-3 gap-7">
-            {testimonials.map((testimonial, index) => (
-              <div
-                key={index}
-                className={`bg-white rounded-2xl p-7 shadow-soft border border-dourado/15 transition-all duration-1000 ${
-                  visibleSections.has('testimonials') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
-                }`}
-                style={{ transitionDelay: `${index * 130}ms` }}
-              >
-                <div className="flex gap-1 mb-4 opacity-30">
-                  {[...Array(testimonial.stars)].map((_, i) => (
-                    <Star key={i} className="w-5 h-5 text-dourado fill-dourado" />
-                  ))}
-                </div>
-                <p className="font-serif italic text-lg text-escuro mb-6 leading-snug">
-                  {testimonial.title}
-                </p>
-                <div className="pt-4 border-t border-dourado/15">
-                  <p className="text-sm text-cinza">{testimonial.note}</p>
-                </div>
-              </div>
-            ))}
+          {/* EDITÁVEL: depoimentos beta-testers em coleta. Substituir este bloco por um grid de cards de depoimentos reais quando chegarem. */}
+          <div
+            className={`max-w-3xl mx-auto bg-white rounded-2xl shadow-soft border border-dourado/15 p-8 sm:p-10 text-center transition-all duration-1000 ${
+              visibleSections.has('testimonials') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+            }`}
+          >
+            <div className="inline-flex items-center gap-2 bg-amarelo/40 px-4 py-1.5 rounded-full mb-5">
+              <Sparkles className="w-4 h-4 text-dourado-dark" />
+              <span className="text-[0.7rem] font-semibold tracking-[0.18em] uppercase text-escuro">
+                Beta em andamento
+              </span>
+            </div>
+            <p className="font-serif italic text-2xl text-escuro mb-3 leading-snug">
+              Histórias reais, não inventadas.
+            </p>
+            <p className="text-cinza-escuro leading-relaxed mb-7">
+              A gente só publica depoimento que existe. Enquanto as primeiras mães testam a MaIA
+              na rotina, sua segurança fica garantida de outro jeito:
+            </p>
+            <div className="flex flex-col sm:flex-row flex-wrap items-center justify-center gap-x-7 gap-y-3 text-sm text-cinza-escuro border-t border-dourado/15 pt-6">
+              <span className="inline-flex items-center gap-2">
+                <BookOpen className="w-4 h-4 text-dourado-dark flex-shrink-0" />
+                Curado por pediatras, nutricionistas e psicólogos
+              </span>
+              <span className="inline-flex items-center gap-2">
+                <CheckCircle2 className="w-4 h-4 text-dourado-dark flex-shrink-0" />
+                7 dias grátis
+              </span>
+              <span className="inline-flex items-center gap-2">
+                <Shield className="w-4 h-4 text-dourado-dark flex-shrink-0" />
+                30 dias de garantia
+              </span>
+            </div>
           </div>
         </div>
       </section>
@@ -573,9 +588,9 @@ export default function SalesPage({ onNavigateToLanding }: SalesPageProps) {
                 <Shield className="w-10 h-10 text-dourado-dark" />
               </div>
               <h2 className="font-serif text-3xl sm:text-4xl text-escuro mb-3 leading-tight">
-                Sua tranquilidade vem em <em className="italic text-dourado">duas camadas.</em>
+                Sua tranquilidade vem em <em className="italic text-dourado-dark">duas camadas.</em>
               </h2>
-              <p className="text-cinza max-w-xl mx-auto">
+              <p className="text-cinza-escuro max-w-xl mx-auto">
                 Você precisa testar no momento real pra sentir o valor. A gente sabe. Por isso:
               </p>
             </div>
@@ -608,14 +623,64 @@ export default function SalesPage({ onNavigateToLanding }: SalesPageProps) {
               </div>
             </div>
 
-            <p className="text-center text-sm text-cinza mt-8 font-light italic">
+            <p className="text-center text-sm text-cinza-escuro mt-8 font-light italic">
               Você não tem nada a perder — e tem uma rede de apoio inteira a ganhar.
             </p>
           </div>
         </div>
       </section>
 
-      {/* ============== Section 8: FINAL CTA ============== */}
+      {/* ============== Section 8: FAQ ============== */}
+      <section
+        id="faq"
+        ref={faqRef}
+        className="py-24 px-4 sm:px-6 lg:px-8 bg-offwhite2"
+      >
+        <div className="max-w-3xl mx-auto">
+          <div
+            className={`text-center mb-12 transition-all duration-1000 ${
+              visibleSections.has('faq') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+            }`}
+          >
+            <h2 className="font-serif text-4xl sm:text-5xl text-escuro mb-4 leading-tight">
+              O que você ainda <em className="italic text-dourado-dark">quer saber.</em>
+            </h2>
+            <p className="text-cinza-escuro">Perguntas que toda mãe faz antes de começar — respondidas sem rodeio.</p>
+          </div>
+
+          <div
+            className={`space-y-4 transition-all duration-1000 delay-200 ${
+              visibleSections.has('faq') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+            }`}
+          >
+            {faqs.map((faq, index) => (
+              <details
+                key={index}
+                className="group bg-white rounded-2xl shadow-soft border border-dourado/15 px-6 sm:px-8 py-5"
+              >
+                <summary className="flex items-center justify-between gap-4 cursor-pointer list-none [&::-webkit-details-marker]:hidden">
+                  <span className="font-serif text-xl text-escuro leading-snug">{faq.q}</span>
+                  <ChevronDown className="w-5 h-5 text-dourado-dark flex-shrink-0 transition-transform group-open:rotate-180" />
+                </summary>
+                <p className="text-cinza-escuro leading-relaxed pt-4">
+                  {faq.a}
+                  {faq.q === 'Os dados do meu filho ficam seguros?' && (
+                    <>
+                      {' '}
+                      <a href="/politica-de-privacidade.html" className="underline hover:text-dourado-dark transition-colors">
+                        Leia aqui
+                      </a>
+                      .
+                    </>
+                  )}
+                </p>
+              </details>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ============== Section 9: FINAL CTA ============== */}
       <section
         id="cta"
         ref={ctaRef}
@@ -634,16 +699,16 @@ export default function SalesPage({ onNavigateToLanding }: SalesPageProps) {
             <div className="inline-flex items-center gap-2 bg-white/80 backdrop-blur-sm px-4 py-2 rounded-full mb-7 border border-dourado/25 shadow-soft">
               <Sparkles className="w-4 h-4 text-dourado" />
               <span className="text-[0.7rem] font-semibold tracking-[0.18em] uppercase text-escuro">
-                Última chamada
+                Pronta quando você estiver
               </span>
             </div>
 
             <h2 className="font-serif text-4xl sm:text-5xl text-escuro mb-5 leading-[1.1]">
-              Se livre do caos —<br />
-              <em className="italic text-dourado">crie uma infância mágica.</em>
+              Você não precisa dar conta sozinha.<br />
+              <em className="italic text-dourado-dark">Nunca precisou.</em>
             </h2>
 
-            <p className="text-lg text-cinza mb-10 max-w-2xl mx-auto leading-relaxed">
+            <p className="text-lg text-cinza-escuro mb-10 max-w-2xl mx-auto leading-relaxed">
               A maternidade deixou de ser solitária. Você só precisa abrir a porta.
             </p>
 
@@ -680,8 +745,15 @@ export default function SalesPage({ onNavigateToLanding }: SalesPageProps) {
                 </div>
               </div>
 
+              {/* Âncoras externas de preço (pesquisa de mercado) */}
+              <p className="text-sm text-cinza-escuro mb-5">
+                Menos que uma consulta pediátrica particular.
+                No plano anual, menos que um café por semana.
+              </p>
+
+              {/* TODO: ligar ao checkout Hub.la quando a conta estiver criada (idealmente um CTA por plano) */}
               <Button
-                className="w-full bg-escuro hover:bg-escuro2 text-offwhite font-semibold py-7 text-lg rounded-full shadow-soft hover:shadow-glow transition-all duration-300 hover:scale-[1.02] mb-4"
+                className="h-auto w-full bg-escuro hover:bg-escuro2 text-offwhite font-semibold py-7 text-lg rounded-full shadow-soft hover:shadow-glow transition-all duration-300 hover:scale-[1.02] mb-4"
               >
                 Quero a MaIA agora
                 <ArrowRight className="ml-2 w-5 h-5" />
@@ -699,8 +771,8 @@ export default function SalesPage({ onNavigateToLanding }: SalesPageProps) {
               </div>
             </div>
 
-            <p className="text-sm text-cinza max-w-xl mx-auto leading-relaxed">
-              IA conversacional em PT-BR · Sem cartão pra começar o teste · Acesso pelo navegador, sem instalar nada.
+            <p className="text-sm text-cinza-escuro max-w-xl mx-auto leading-relaxed">
+              Conversa por chat, em português, 24h · 7 dias grátis pra testar · Acesso pelo navegador, sem instalar nada.
             </p>
           </div>
         </div>
@@ -718,13 +790,13 @@ export default function SalesPage({ onNavigateToLanding }: SalesPageProps) {
           </p>
 
           {/* Voz coletiva da marca MaIA — sem fundadora exposta (decisão de marca). Não inserir conteúdo pessoal aqui. */}
-          <p className="text-xs text-offwhite/40 mt-7 tracking-[0.15em] uppercase flex items-center justify-center gap-2">
+          <p className="text-xs text-offwhite/60 mt-7 tracking-[0.15em] uppercase flex items-center justify-center gap-2">
             <BookOpen className="w-3.5 h-3.5" />
             Baseado em ciência. Validado por especialistas.
           </p>
 
           <div className="mt-10 pt-6 border-t border-offwhite/10">
-            <div className="grid sm:grid-cols-3 gap-5 max-w-2xl mx-auto text-left text-xs text-offwhite/55 mb-7">
+            <div className="grid sm:grid-cols-3 gap-5 max-w-2xl mx-auto text-left text-xs text-offwhite/60 mb-7">
               <div className="text-center sm:text-left">
                 <p className="font-semibold text-offwhite/80 mb-1 tracking-wide">Contato</p>
                 <p>[A PREENCHER — email oficial MaIA]</p>
@@ -733,23 +805,23 @@ export default function SalesPage({ onNavigateToLanding }: SalesPageProps) {
                 <p className="font-semibold text-offwhite/80 mb-1 tracking-wide">Navegação</p>
                 <button
                   onClick={onNavigateToLanding}
-                  className="text-offwhite/55 hover:text-dourado-light transition-colors"
+                  className="text-offwhite/60 hover:text-dourado-light transition-colors"
                 >
                   Página inicial
                 </button>
               </div>
               <div className="text-center sm:text-left">
                 <p className="font-semibold text-offwhite/80 mb-1 tracking-wide">Legal</p>
-                <a href="/politica-de-privacidade.html" className="block text-offwhite/55 hover:text-dourado-light transition-colors">
+                <a href="/politica-de-privacidade.html" className="block text-offwhite/60 hover:text-dourado-light transition-colors">
                   Política de Privacidade
                 </a>
-                <a href="/termos-de-uso.html" className="block text-offwhite/55 hover:text-dourado-light transition-colors">
+                <a href="/termos-de-uso.html" className="block text-offwhite/60 hover:text-dourado-light transition-colors">
                   Termos de Uso
                 </a>
               </div>
             </div>
 
-            <p className="text-offwhite/45 text-xs">
+            <p className="text-offwhite/60 text-xs">
               © 2026 MaIA · Todos os direitos reservados.
             </p>
           </div>
