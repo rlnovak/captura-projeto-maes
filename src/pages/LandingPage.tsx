@@ -149,9 +149,9 @@ export default function LandingPage({ onNavigateToSales }: LandingPageProps) {
               Receba grátis o Kit Mágico — 3 prompts que aliviam sua rotina hoje à noite.
             </p>
 
-            {/* EDITÁVEL: substituir por bloco da Eliza quando história estiver pronta. Manter estrutura do componente. */}
+            {/* Voz coletiva da marca MaIA — sem fundadora exposta (decisão de marca). Não inserir conteúdo pessoal aqui. */}
             <p className="text-sm text-cinza mb-10">
-              Feito por mães, pra mães. Validado por pediatras, nutricionistas e psicólogos.
+              Baseado na ciência do desenvolvimento infantil. Validado por pediatras, nutricionistas e psicólogos.
             </p>
 
             {/* CTA */}
@@ -370,7 +370,7 @@ export default function LandingPage({ onNavigateToSales }: LandingPageProps) {
               <div className="relative rounded-2xl overflow-hidden">
                 <img
                   src="/story-mom-2_a.png"
-                  alt="Mãe brasileira em rotina real com seu filho pequeno"
+                  alt="Ilustração editorial de uma cena de maternidade no cotidiano"
                   className="w-full h-auto opacity-85 mix-blend-multiply"
                 />
                 <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-offwhite to-transparent pointer-events-none" />
@@ -378,8 +378,7 @@ export default function LandingPage({ onNavigateToSales }: LandingPageProps) {
                 <div className="absolute inset-y-0 right-0 w-16 bg-gradient-to-l from-offwhite to-transparent pointer-events-none" />
               </div>
 
-              {/* Quote Card — narradora coletiva agora, Eliza depois */}
-              {/* EDITÁVEL: trocar pelo depoimento da Eliza quando a história dela estiver pronta. Manter card + posicionamento. */}
+              {/* Voz coletiva da marca MaIA — sem fundadora exposta (decisão de marca). Não inserir conteúdo pessoal aqui. */}
               <div className="mt-4 bg-white rounded-2xl shadow-soft p-6 border border-dourado/20">
                 <p className="font-serif italic text-lg text-escuro leading-snug">
                   "Eu não tava sozinha por falta de gente. Tava sozinha por falta de alguém que entendesse."
@@ -398,7 +397,7 @@ export default function LandingPage({ onNavigateToSales }: LandingPageProps) {
                   : 'opacity-0 translate-x-10'
               }`}
             >
-              {/* EDITÁVEL: bloco "Eu sei como você se sente" — substituir por narrativa em primeira pessoa da Eliza quando estiver pronto. */}
+              {/* Voz coletiva da marca MaIA — sem fundadora exposta (decisão de marca). Não inserir conteúdo pessoal aqui. */}
               <div className="space-y-5">
                 <p className="text-escuro leading-relaxed text-base">
                   Você ama seu filho. E ainda assim, tem dia que olha pro teto e sente
@@ -613,10 +612,10 @@ export default function LandingPage({ onNavigateToSales }: LandingPageProps) {
             A presença que entende você — e o seu filho.
           </p>
 
-          {/* EDITÁVEL: assinatura da fundadora — substituir por bloco da Eliza com foto/nome quando estiver pronto. */}
+          {/* Voz coletiva da marca MaIA — sem fundadora exposta (decisão de marca). Não inserir conteúdo pessoal aqui. */}
           <p className="text-xs text-offwhite/40 mt-7 tracking-[0.15em] uppercase flex items-center justify-center gap-2">
             <BookOpen className="w-3.5 h-3.5" />
-            Feito por mães. Validado por especialistas.
+            Baseado em ciência. Validado por especialistas.
           </p>
 
           <div className="mt-10 pt-6 border-t border-offwhite/10">

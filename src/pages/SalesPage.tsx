@@ -120,24 +120,21 @@ export default function SalesPage({ onNavigateToLanding }: SalesPageProps) {
     'Calendário de vacinas e marcos',
   ];
 
-  // Testimonials — placeholders enquanto beta-testers entregam material
+  // Testimonials — estado "em breve" enquanto beta-testers entregam material
   const testimonials = [
     {
-      name: '[A PREENCHER — nome]',
-      role: '[A PREENCHER — mãe de X anos]',
-      text: '[A PREENCHER — depoimento sobre o momento exato em que a MaIA virou diferença.]',
+      title: 'Depoimento em breve',
+      note: 'Estamos coletando as primeiras histórias reais do beta.',
       stars: 5,
     },
     {
-      name: '[A PREENCHER — nome]',
-      role: '[A PREENCHER — mãe solo, gêmeos, etc]',
-      text: '[A PREENCHER — depoimento focado em validação emocional ou 3h da manhã.]',
+      title: 'Depoimento em breve',
+      note: 'Estamos coletando as primeiras histórias reais do beta.',
       stars: 5,
     },
     {
-      name: '[A PREENCHER — nome]',
-      role: '[A PREENCHER — fase do filho]',
-      text: '[A PREENCHER — depoimento focado em antecipação e memória da criança.]',
+      title: 'Depoimento em breve',
+      note: 'Estamos coletando as primeiras histórias reais do beta.',
       stars: 5,
     },
   ];
@@ -370,7 +367,7 @@ export default function SalesPage({ onNavigateToLanding }: SalesPageProps) {
             </p>
           </div>
 
-          {/* EDITÁVEL: substituir por bloco da Eliza com narrativa em primeira pessoa quando estiver pronto. Manter estrutura. */}
+          {/* Voz coletiva da marca MaIA — sem fundadora exposta (decisão de marca). Não inserir conteúdo pessoal aqui. */}
           <div className="bg-white rounded-3xl shadow-soft p-8 sm:p-12 border border-dourado/15">
             <div className="space-y-4">
               {[
@@ -527,9 +524,9 @@ export default function SalesPage({ onNavigateToLanding }: SalesPageProps) {
             }`}
           >
             <h2 className="font-serif text-4xl sm:text-5xl text-escuro mb-4 leading-tight">
-              Mães reais. <em className="italic text-dourado">Rotinas reais.</em>
+              As primeiras mães <em className="italic text-dourado">já estão testando.</em>
             </h2>
-            <p className="text-cinza">Depoimentos de mães do beta que já testaram a MaIA na rotina.</p>
+            <p className="text-cinza">A MaIA está em beta. Os primeiros depoimentos de mães reais chegam aqui em breve.</p>
           </div>
 
           {/* EDITÁVEL: depoimentos beta-testers em coleta. Substituir os 3 cards quando os depoimentos chegarem (manter estrutura e estilo). */}
@@ -542,17 +539,16 @@ export default function SalesPage({ onNavigateToLanding }: SalesPageProps) {
                 }`}
                 style={{ transitionDelay: `${index * 130}ms` }}
               >
-                <div className="flex gap-1 mb-4">
+                <div className="flex gap-1 mb-4 opacity-30">
                   {[...Array(testimonial.stars)].map((_, i) => (
                     <Star key={i} className="w-5 h-5 text-dourado fill-dourado" />
                   ))}
                 </div>
                 <p className="font-serif italic text-lg text-escuro mb-6 leading-snug">
-                  "{testimonial.text}"
+                  {testimonial.title}
                 </p>
                 <div className="pt-4 border-t border-dourado/15">
-                  <p className="font-semibold text-escuro">{testimonial.name}</p>
-                  <p className="text-sm text-cinza">{testimonial.role}</p>
+                  <p className="text-sm text-cinza">{testimonial.note}</p>
                 </div>
               </div>
             ))}
@@ -721,10 +717,10 @@ export default function SalesPage({ onNavigateToLanding }: SalesPageProps) {
             A presença que entende você — e o seu filho.
           </p>
 
-          {/* EDITÁVEL: assinatura da fundadora — substituir por bloco da Eliza com foto/nome quando estiver pronto. */}
+          {/* Voz coletiva da marca MaIA — sem fundadora exposta (decisão de marca). Não inserir conteúdo pessoal aqui. */}
           <p className="text-xs text-offwhite/40 mt-7 tracking-[0.15em] uppercase flex items-center justify-center gap-2">
             <BookOpen className="w-3.5 h-3.5" />
-            Feito por mães. Validado por especialistas.
+            Baseado em ciência. Validado por especialistas.
           </p>
 
           <div className="mt-10 pt-6 border-t border-offwhite/10">
@@ -744,7 +740,12 @@ export default function SalesPage({ onNavigateToLanding }: SalesPageProps) {
               </div>
               <div className="text-center sm:text-left">
                 <p className="font-semibold text-offwhite/80 mb-1 tracking-wide">Legal</p>
-                <p>Política de privacidade</p>
+                <a href="/politica-de-privacidade.html" className="block text-offwhite/55 hover:text-dourado-light transition-colors">
+                  Política de Privacidade
+                </a>
+                <a href="/termos-de-uso.html" className="block text-offwhite/55 hover:text-dourado-light transition-colors">
+                  Termos de Uso
+                </a>
               </div>
             </div>
 
