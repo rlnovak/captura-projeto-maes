@@ -16,11 +16,11 @@ import {
   Bell,
 } from 'lucide-react';
 
-interface LandingPageProps {
-  onNavigateToSales: () => void;
-}
+// Destino pós-captura: Thank You Page (entrega do kit + pitch + checkout).
+// URL provisória no subdomínio Aretech — trocar quando o domínio definitivo do MaIA for registrado.
+const TYP_URL = 'https://typ1.aretech.com.br';
 
-export default function LandingPage({ onNavigateToSales }: LandingPageProps) {
+export default function LandingPage() {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
@@ -94,8 +94,10 @@ export default function LandingPage({ onNavigateToSales }: LandingPageProps) {
     }
 
     setIsSubmitted(true);
+    // Redireciona para a Thank You Page, repassando os UTMs para manter o rastreio da jornada.
     setTimeout(() => {
-      onNavigateToSales();
+      const utms = params.toString();
+      window.location.href = utms ? `${TYP_URL}?${utms}` : TYP_URL;
     }, 1800);
   };
 
@@ -606,17 +608,17 @@ export default function LandingPage({ onNavigateToSales }: LandingPageProps) {
                 </div>
               </div>
 
-              {/* CTA */}
+              {/* CTA — fecha de volta na isca (objetivo único da captura) */}
               <div className="bg-escuro rounded-2xl p-7 text-center shadow-soft">
                 <p className="text-offwhite mb-5 leading-relaxed font-light">
                   Você não precisa dar conta sozinha. Nunca precisou.<br />
-                  <span className="text-dourado-light">Conheça a MaIA por dentro.</span>
+                  <span className="text-dourado-light">Comece hoje à noite, com o Kit Mágico.</span>
                 </p>
                 <Button
-                  onClick={onNavigateToSales}
+                  onClick={() => scrollToSection(leadMagnetRef)}
                   className="h-auto bg-dourado hover:bg-dourado-light text-escuro font-semibold px-8 py-5 rounded-full shadow-soft hover:shadow-glow transition-all duration-300 hover:scale-105"
                 >
-                  Conhecer a MaIA por dentro
+                  Quero o Kit Mágico
                   <ArrowRight className="ml-2 w-5 h-5" />
                 </Button>
               </div>
